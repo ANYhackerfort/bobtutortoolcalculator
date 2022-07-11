@@ -12,7 +12,7 @@ def main():
     put_image(src = 'https://bobtutor.org/storage/logos/1613204243-1612810280-1602097956-logo.png')
     put_markdown('======================').style('color:green')
     put_markdown('\n' + 'Welcome to Presidential Awards Calculator for Bobtutor').style('font-size: 30px')
-    toast("For gold, silver, and bronze metals this year, you may only enter hours that were between August 1, 2021 to July 31, 2022.", position='right',color='info', duration=10)
+    toast("For gold, silver, and bronze metals this year, you may only enter hours that were between August 1, 2021 to July 31, 2022.", position='left',color='info', duration=10)
     put_markdown('The main function of this tool is to quickly find out how many hours you have and what award you are able to get.')
     put_markdown('You can also find out how many hours you need for a certain award; even the all mightiest lifetime achievement!').style('color:gray')
     put_markdown('Made for students in middle school and high school').style('color:red')
