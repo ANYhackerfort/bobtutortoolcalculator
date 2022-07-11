@@ -1,24 +1,27 @@
-from logging import PlaceHolder
 from pywebio import *
 from pywebio.output import *
 from pywebio.input import *
+import argparse
 import pandas as pd 
 from datetime import datetime
+from pywebio import start_server
 from dateutil.relativedelta import relativedelta
-
-
 
 def main():
     put_image(src = 'https://bobtutor.org/storage/logos/1613204243-1612810280-1602097956-logo.png')
     put_markdown('======================').style('color:green')
     put_markdown('\n' + 'Welcome to Presidential Awards Calculator for Bobtutor').style('font-size: 30px')
-    toast("For gold, silver, and bronze metals this year, you may only enter hours that were between August 1, 2021 to July 31, 2022.", position='left',color='info', duration=10)
     put_markdown('The main function of this tool is to quickly find out how many hours you have and what award you are able to get.')
     put_markdown('You can also find out how many hours you need for a certain award; even the all mightiest lifetime achievement!').style('color:gray')
     put_markdown('Made for students in middle school and high school').style('color:red')
     put_markdown('Please input your date of birth and we will get started')
     put_text('======================').style('color:green')
-    toast("The application dead line is August 7th (2022)", position='right',color='info', duration=4)
+    toast("The application dead line is August 7th (2022)", position='right',color='info', duration=4, onclick=None)
+    toast("For gold, silver, and bronze metals this year, you may only enter hours that were between August 1, 2021 to July 31, 2022.", position='right',color='info', duration=10, onclick=None)
+    put_text('FULL TUTORIAL + DEMONSTRATION OF THIS TOOL IN LINK BELOW').style('color:blue')
+    put_link('→ LINK ←', url='https://www.youtube.com/watch?v=beW_2KHGqP4', new_window=True)
+    put_text('======================').style('color:green')
+    
     
     def repeat():
         try:
@@ -49,10 +52,14 @@ def main():
             repeat()    
     
     repeat()
-    put_text("Please make sure you have selected the (All) category in dates and downloaded the CSV files for teaching and training").style("color:red")
-    put_image('https://cdn.discordapp.com/attachments/689663355874443278/995492928380227676/Screen_Shot_2022-07-09_at_5.53.23_PM.png')
+    put_text("Click on your name on the top right corner -> Click Dashboard -> Click teaching or training logs").style("color:red")
+    put_text("[Also in video] Follow the steps below one by one once you get to your teaching or training logs! Remeber that you have to download both files! ").style("color:red")
+    put_text("[1]").style("color:red")
     put_image('https://cdn.discordapp.com/attachments/689663355874443278/995508559146131477/Screen_Shot_2022-07-09_at_6.55.26_PM.png')
-    
+    put_text("[2]").style("color:red")
+    put_image('https://cdn.discordapp.com/attachments/689663355874443278/996107943864963112/Screen_Shot_2022-07-11_at_10.37.16_AM.png')
+    put_text("[3]").style("color:red")
+    put_image('https://cdn.discordapp.com/attachments/689663355874443278/996108373848240168/Screen_Shot_2022-07-11_at_10.38.58_AM.png')
 
     def repeat1():
         try:
@@ -105,16 +112,29 @@ def main():
             popup("Error", content=ping) 
             scroll_to('middle')
             repeat1() 
+
+        except NameError:
+            ping = "Please make sure you have selected the right CSV files"
+            popup("Error", content=ping) 
+            scroll_to('middle')
+            repeat1()            
+
+        except TypeError:
+            ping = "Please make sure you have selected the right CSV files"
+            popup("Error", content=ping) 
+            scroll_to('middle')
+            repeat1()                     
             
         
     repeat1()
     bob = (repeat1.getTotalTime / 60)
     bobb = repeat1.getTotalTime 
     bobbb = (repeat1.getTotalTimeMAX / 60)
+    bobbbb = repeat1.getTotalTimeMAX 
     clear(None)
     scroll_to('top')
     put_text("Total number of minutes this semester: " + str(bobb) + " || Total number of hours: " + str(bob)).style('color:orange; font-size: 20px')
-    put_text("Net total of minutes (life time): " + str(bobbb) + " || Total number of hours: " + str(bobb)).style('color:orange; font-size: 20px')
+    put_text("Net total of minutes (life time): " + (str(bobbbb)) + " || Total number of hours: " + str(bobbb)).style('color:orange; font-size: 20px')
     put_text("You are in the category of " + str(repeat.getCategory)).style('color:orange; font-size: 20px')
     
     
@@ -222,4 +242,9 @@ def main():
     put_text('======================').style('color:green')
     
 if __name__ == '__main__':
-    start_server(main, port=8888, debug=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--port", type=int, default=8080)
+    args = parser.parse_args()
+    
+    start_server(main, port=args.port)
+    # start_server(main, port=8888, debug=True)
